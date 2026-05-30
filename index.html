@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>J&O Cupcake - Calcula tus Costos y Asegura tus Ganancias</title>
+
+    <!-- Meta tags for SEO -->
+    <meta name="description"
+        content="Calculadora automatizada en Google Sheets diseñada exclusivamente para reposteras. Calcula en minutos el costo exacto de tus postres e incluye mano de obra y depreciación." />
+    <meta name="keywords"
+        content="repostería, costos repostería, calculadora repostería, cupcakes, tortas, google sheets, plantilla de costos, pastelera, J&O Cupcake" />
+    <meta name="author" content="J&O Cupcake" />
+
+    <!-- Tailwind CSS (Inherited from Stitch base model template) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Quicksand:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind Custom Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#331019",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-low": "#fff0ed",
+                        "on-tertiary-fixed-variant": "#524249",
+                        "on-surface": "#2b1611",
+                        "surface": "#fff8f6",
+                        "secondary-fixed-dim": "#f3b7c1",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#e2165f",
+                        "surface-container-highest": "#ffdad2",
+                        "tertiary-container": "#827077",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#69575e",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#5b3f43",
+                        "on-secondary-fixed-variant": "#663a43",
+                        "inverse-primary": "#ffb2be",
+                        "on-secondary-container": "#794b54",
+                        "on-tertiary-fixed": "#25181e",
+                        "primary": "#b80049",
+                        "secondary-container": "#fcbfca",
+                        "surface-container": "#ffe9e4",
+                        "on-primary-fixed": "#400014",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#ffe2db",
+                        "inverse-on-surface": "#ffede9",
+                        "surface-bright": "#fff8f6",
+                        "secondary-fixed": "#ffd9df",
+                        "on-background": "#2b1611",
+                        "tertiary-fixed": "#f4dce4",
+                        "outline-variant": "#e4bdc2",
+                        "on-primary-fixed-variant": "#900038",
+                        "tertiary-fixed-dim": "#d7c1c8",
+                        "secondary": "#81515b",
+                        "surface-variant": "#ffdad2",
+                        "surface-dim": "#f9d1c8",
+                        "primary-fixed-dim": "#ffb2be",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "primary-fixed": "#ffd9de",
+                        "inverse-surface": "#432a25",
+                        "surface-tint": "#bc004b",
+                        "outline": "#8f6f73",
+                        "background": "#fff8f6",
+                        "whatsapp": "#25D366",
+                        "whatsapp-dark": "#128C7E"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-sm": "16px",
+                        "unit": "8px",
+                        "container-max": "1280px",
+                        "margin-md": "40px",
+                        "gutter": "24px",
+                        "margin-lg": "80px"
+                    },
+                    fontFamily: {
+                        "headline": ["Quicksand", "Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Montserrat", "Be Vietnam Pro", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom external styles -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Meta Pixel Code and interactive logic (deferred to prevent block and ensure DOM load) -->
+    <script src="js/script.js" defer></script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body
+    class="bg-background text-on-background font-body antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-sm"
+        id="navbar">
+        <div class="flex justify-between items-center px-6 py-4 max-w-container-max mx-auto">
+            <a class="text-headline-md font-headline font-bold text-primary flex items-center gap-2 hover:opacity-90 transition-opacity"
+                href="#">
+                <img src="img/logo/logo.jpeg" alt="Logo J&O Cupcake"
+                    class="h-9 w-9 rounded-full object-cover border border-primary/20" />
+                <span>J&O Cupcake</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-semibold text-on-surface-variant">
+                <a class="hover:text-primary transition-colors" href="#inicio">Inicio</a>
+                <a class="hover:text-primary transition-colors" href="#dolor">¿Por qué?</a>
+                <a class="hover:text-primary transition-colors" href="#guia">¿Qué incluye?</a>
+                <a class="hover:text-primary transition-colors" href="#bonus">Bonus</a>
+                <a class="hover:text-primary transition-colors" href="#faq">Preguntas</a>
+            </div>
+
+            <!-- CTA Nav Button (Desktop) -->
+            <div class="hidden md:block">
+                <button
+                    class="inline-flex items-center justify-center bg-whatsapp hover:bg-whatsapp-dark text-white font-bold px-5 py-2.5 rounded-full shadow-md transition-all duration-300 hover:scale-105 active:scale-95 gap-2 cursor-pointer"
+                    onclick="openCheckoutModal('navbar')" id="nav-cta-whatsapp">
+                    <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.53.909-3.321 1.389 5.148 1.39h.005c5.565 0 10.093-4.52 10.096-10.083.001-2.697-1.047-5.232-2.951-7.138-1.904-1.906-4.437-2.956-7.134-2.957-5.567 0-10.095 4.521-10.098 10.084-.001 1.898.513 3.754 1.487 5.385l-1.03 3.766 3.863-.997zm11.37-7.929c-.312-.156-1.845-.91-2.131-1.015-.286-.104-.494-.156-.702.156s-.806 1.015-.988 1.222c-.182.207-.364.233-.676.078-.312-.156-1.318-.486-2.51-1.549-.928-.827-1.554-1.849-1.737-2.16-.182-.312-.019-.481.137-.635.141-.138.312-.364.468-.546.156-.182.208-.312.312-.52s.052-.39-.026-.546c-.078-.156-.702-1.69-.962-2.314-.253-.607-.512-.525-.702-.535-.181-.01-.39-.01-.598-.01s-.546.078-.832.39c-.286.312-1.092 1.067-1.092 2.602s1.118 3.015 1.274 3.223c.156.208 2.197 3.354 5.32 4.704.743.321 1.323.513 1.774.657.746.237 1.425.203 1.961.123.598-.09 1.845-.754 2.105-1.482.26-.728.26-1.353.182-1.482-.078-.129-.286-.207-.598-.363z" />
+                    </svg>
+                    <span>Preguntar por WhatsApp</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button aria-label="Toggle menu" class="md:hidden text-primary p-2 focus:outline-none" id="menu-btn">
+                <span class="material-symbols-outlined text-[32px]" id="menu-icon">menu</span>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="hidden md:hidden bg-surface border-t border-outline-variant/30 px-6 py-4 flex flex-col gap-4 text-center font-semibold text-on-surface-variant transition-all duration-300"
+            id="mobile-menu">
+            <a class="hover:text-primary py-2 block border-b border-outline-variant/10" href="#inicio">Inicio</a>
+            <a class="hover:text-primary py-2 block border-b border-outline-variant/10" href="#dolor">¿Por qué lo
+                necesitas?</a>
+            <a class="hover:text-primary py-2 block border-b border-outline-variant/10" href="#guia">¿Qué incluye la
+                Guía?</a>
+            <a class="hover:text-primary py-2 block border-b border-outline-variant/10" href="#bonus">Super Bonus</a>
+            <a class="hover:text-primary py-2 block border-b border-outline-variant/10" href="#faq">Preguntas
+                Frecuentes</a>
+            <button
+                class="inline-flex items-center justify-center bg-whatsapp hover:bg-whatsapp-dark text-white font-bold py-3 px-6 rounded-full shadow-md gap-2 mt-2 cursor-pointer"
+                onclick="openCheckoutModal('mobile_menu')">
+                <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+                    <path
+                        d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.53.909 3.321 1.389 5.148 1.39h.005c5.565 0 10.093-4.52 10.096-10.083.001-2.697-1.047-5.232-2.951-7.138-1.904-1.906-4.437-2.956-7.134-2.957-5.567 0-10.095 4.521-10.098 10.084-.001 1.898.513 3.754 1.487 5.385l-1.03 3.766 3.863-.997zm11.37-7.929c-.312-.156-1.845-.91-2.131-1.015-.286-.104-.494-.156-.702.156s-.806 1.015-.988 1.222c-.182.207-.364.233-.676.078-.312-.156-1.318-.486-2.51-1.549-.928-.827-1.554-1.849-1.737-2.16-.182-.312-.019-.481.137-.635.141-.138.312-.364.468-.546.156-.182.208-.312.312-.52s.052-.39-.026-.546c-.078-.156-.702-1.69-.962-2.314-.253-.607-.512-.525-.702-.535-.181-.01-.39-.01-.598-.01s-.546.078-.832.39c-.286.312-1.092 1.067-1.092 2.602s1.118 3.015 1.274 3.223c.156.208 2.197 3.354 5.32 4.704.743.321 1.323.513 1.774.657.746.237 1.425.203 1.961.123.598-.09 1.845-.754 2.105-1.482.26-.728.26-1.353.182-1.482-.078-.129-.286-.207-.598-.363z" />
+                </svg>
+                <span>Quiero la Guía de Costos por WhatsApp</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="pt-[72px]" id="main-content">
+
+        <!-- 1. Hero Section -->
+        <section
+            class="relative min-h-[90vh] flex items-center justify-center px-6 py-12 md:py-20 bg-surface-container-low overflow-hidden bg-sprinkles"
+            id="inicio">
+            <div class="max-w-container-max mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+
+                <!-- Hero Left: Content -->
+                <div class="flex flex-col gap-6 text-center md:text-left">
+                    <div
+                        class="inline-flex items-center gap-2 bg-secondary-container/50 text-on-secondary-container px-4 py-2 rounded-full w-fit mx-auto md:mx-0 font-bold text-sm tracking-wide">
+                        <span class="material-symbols-outlined filled text-[18px]">auto_awesome</span>
+                        <span>EXCLUSIVO PARA REPOSTERAS</span>
+                    </div>
+
+                    <h1
+                        class="font-headline text-3xl sm:text-4xl md:text-5xl text-on-surface leading-tight font-extrabold">
+                        Deja de adivinar tus precios y empieza a recibir las <span
+                            class="text-primary relative inline-block">ganancias
+                            <svg class="absolute w-full h-3 -bottom-1 left-0 text-secondary-container" fill="none"
+                                viewbox="0 0 200 9" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.00017 6.49969C45.3121 2.37367 110.155 -1.02559 198 6.49969"
+                                    stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+                            </svg>
+                        </span> que tu talento merece.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed max-w-xl mx-auto md:mx-0">
+                        La herramienta automatizada en Google Sheets diseñada exclusivamente para reposteras. Calcula en
+                        minutos el costo exacto de tus tortas, cupcakes y postres, incluyendo tu mano de obra y el
+                        desgaste de tus equipos.
+                    </p>
+
+                    <!-- Hero CTA -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-2">
+                        <button
+                            class="inline-flex items-center justify-center bg-whatsapp hover:bg-whatsapp-dark text-white font-bold text-base px-8 py-4.5 rounded-full glow-whatsapp transition-all duration-300 hover:scale-105 active:scale-95 gap-3 cursor-pointer"
+                            onclick="openCheckoutModal('hero')" id="hero-cta-whatsapp">
+                            <svg class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+                                <path
+                                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.53.909-3.321 1.389 5.148 1.39h.005c5.565 0 10.093-4.52 10.096-10.083.001-2.697-1.047-5.232-2.951-7.138-1.904-1.906-4.437-2.956-7.134-2.957-5.567 0-10.095 4.521-10.098 10.084-.001 1.898.513 3.754 1.487 5.385l-1.03 3.766 3.863-.997zm11.37-7.929c-.312-.156-1.845-.91-2.131-1.015-.286-.104-.494-.156-.702.156s-.806 1.015-.988 1.222c-.182.207-.364.233-.676.078-.312-.156-1.318-.486-2.51-1.549-.928-.827-1.554-1.849-1.737-2.16-.182-.312-.019-.481.137-.635.141-.138.312-.364.468-.546.156-.182.208-.312.312-.52s.052-.39-.026-.546c-.078-.156-.702-1.69-.962-2.314-.253-.607-.512-.525-.702-.535-.181-.01-.39-.01-.598-.01s-.546.078-.832.39c-.286.312-1.092 1.067-1.092 2.602s1.118 3.015 1.274 3.223c.156.208 2.197 3.354 5.32 4.704.743.321 1.323.513 1.774.657.746.237 1.425.203 1.961.123.598-.09 1.845-.754 2.105-1.482.26-.728.26-1.353.182-1.482-.078-.129-.286-.207-.598-.363z" />
+                            </svg>
+                            <span>Quiero la Guía de Costos por WhatsApp</span>
+                        </button>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div
+                        class="flex items-center justify-center md:justify-start gap-4 mt-6 text-sm text-on-surface-variant">
+                        <div class="flex -space-x-2">
+                            <span
+                                class="w-8 h-8 rounded-full border-2 border-surface bg-primary text-white flex items-center justify-center text-xs font-bold font-headline">J</span>
+                            <span
+                                class="w-8 h-8 rounded-full border-2 border-surface bg-secondary text-white flex items-center justify-center text-xs font-bold font-headline">O</span>
+                            <span
+                                class="w-8 h-8 rounded-full border-2 border-surface bg-primary-container text-white flex items-center justify-center text-xs font-bold">+50</span>
+                        </div>
+                        <span>Pasteleras organizando sus negocios</span>
+                    </div>
+                </div>
+
+                <!-- Hero Right: Interactive Mockup -->
+                <div class="relative mt-8 md:mt-0 flex justify-center z-10 w-full max-w-[450px] mx-auto">
+                    <!-- Glow effect behind -->
+                    <div
+                        class="absolute inset-0 bg-secondary-container/40 rounded-full blur-3xl filter transform scale-110">
+                    </div>
+
+                    <!-- Mockup Laptop Container -->
+                    <div
+                        class="relative w-full aspect-[4/3] bg-white rounded-2xl shadow-xl border-4 border-surface-container-highest overflow-hidden z-0 animate-float-laptop">
+                        <img alt="Plantilla en Laptop J&O" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubGx3RXOlyjamK2RODyb-bpkH0FWUIDNlQY6wNmttVPzOl_Q3b2Q7Gm09hYi1Z6MVHvqGcZlJEw3N21xY1A4HyX3-bLkjRRsNakdU-QPFbGdmJr3MfV0MZ3qCGwcULWa_6_Vn7edA4v8WQu2Y3Gh1hgqjRtZLp1_Uve_O5rUVnlUpFoFazLbHPSNC4kQkFrt8pk2eJk3KzkPXscJeutCsBw_EdnCzetdaVxv5-Hi6fZ9enjISG9z2incHzP6gSdXT7jjCrjrbE1M" />
+                        <!-- Auto-save notification pill in mockup -->
+                        <div
+                            class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm border border-outline/20 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-md">
+                            <span class="material-symbols-outlined text-green-500 text-sm">cloud_done</span>
+                            <span class="text-on-surface-variant font-body">Guardado en Drive</span>
+                        </div>
+                    </div>
+
+                    <!-- Mockup Mobile Phone Container (overlapping) -->
+                    <div
+                        class="absolute -left-6 -bottom-6 w-[42%] aspect-[9/19] bg-white rounded-[2.5rem] shadow-2xl border-6 border-on-surface overflow-hidden z-20 animate-float-mobile">
+                        <img alt="Plantilla en Celular J&O" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubGx3RXOlyjamK2RODyb-bpkH0FWUIDNlQY6wNmttVPzOl_Q3b2Q7Gm09hYi1Z6MVHvqGcZlJEw3N21xY1A4HyX3-bLkjRRsNakdU-QPFbGdmJr3MfV0MZ3qCGwcULWa_6_Vn7edA4v8WQu2Y3Gh1hgqjRtZLp1_Uve_O5rUVnlUpFoFazLbHPSNC4kQkFrt8pk2eJk3KzkPXscJeutCsBw_EdnCzetdaVxv5-Hi6fZ9enjISG9z2incHzP6gSdXT7jjCrjrbE1M" />
+                    </div>
+
+                    <!-- Mascot floating sticker with speech bubble -->
+                    <div class="absolute -right-6 -bottom-8 w-20 md:w-28 z-30 flex flex-col items-center select-none animate-float-mobile"
+                        style="animation-delay: -3s;">
+                        <!-- Speech bubble -->
+                        <div
+                            class="bg-white text-on-surface text-[9px] md:text-[11px] font-bold px-2.5 py-1.5 rounded-2xl shadow-md border border-outline-variant/30 mb-2 relative animate-speech-bubble whitespace-nowrap">
+                            ¡Te ayudo a ganar! 💖
+                            <!-- Speech bubble tail -->
+                            <div
+                                class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-r border-b border-outline-variant/30 rotate-45">
+                            </div>
+                        </div>
+                        <!-- Mascot Avatar with sticker outline -->
+                        <img alt="Mascota J&O Cupcake" class="w-16 h-16 full object-cover shrink-0"
+                            src="img/mascota.PNG" />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. Agitación del Dolor -->
+        <section class="py-16 md:py-24 px-6 bg-white" id="dolor">
+            <div class="max-w-container-max mx-auto flex flex-col gap-10">
+                <div class="text-center max-w-2xl mx-auto">
+                    <h2 class="font-headline text-3xl font-extrabold text-on-surface mb-4">¿Te identificas con estas
+                        situaciones?</h2>
+                    <p class="text-on-surface-variant text-base">La repostería es un arte, pero cobrar de más o de menos
+                        puede destruir tu pasión. Pregúntate esto:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div
+                        class="p-8 rounded-3xl bg-surface-container-low border border-outline-variant/40 flex flex-col gap-5 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-2xl font-bold">query_stats</span>
+                        </div>
+                        <h3 class="font-headline text-lg font-bold text-on-surface">¿El dinero se evapora?</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            ¿Sientes que pasas horas y horas de pie en la cocina decorando, pero al final del mes no te
+                            queda dinero en el bolsillo?
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="p-8 rounded-3xl bg-surface-container-low border border-outline-variant/40 flex flex-col gap-5 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-2xl font-bold">payments</span>
+                        </div>
+                        <h3 class="font-headline text-lg font-bold text-on-surface">¿Cobra 'por 3'?</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            ¿Cobras tus postres simplemente multiplicando el costo de los ingredientes "por 3" sin tener
+                            idea de si realmente estás ganando o perdiendo?
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="p-8 rounded-3xl bg-surface-container-low border border-outline-variant/40 flex flex-col gap-5 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-2xl font-bold">electric_bolt</span>
+                        </div>
+                        <h3 class="font-headline text-lg font-bold text-on-surface">¿Ignoras la depreciación?</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            ¿Sabías que cada vez que prendes tu batidora o tu horno estás perdiendo dinero
+                            silenciosamente si no calculas su depreciación?
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Solution Highlight Block -->
+                <div
+                    class="mt-8 p-8 md:p-12 rounded-3xl bg-primary text-on-primary text-center relative overflow-hidden shadow-lg">
+                    <div class="absolute inset-0 bg-sprinkles opacity-5 pointer-events-none"></div>
+                    <div class="relative z-10 max-w-3xl mx-auto flex flex-col gap-4">
+                        <span class="font-headline text-xl md:text-2xl font-bold leading-snug">
+                            "No necesitas saber de finanzas ni ser experta en Excel."
+                        </span>
+                        <p class="text-sm md:text-base opacity-90 leading-relaxed max-w-2xl mx-auto font-medium">
+                            J&O Cupcake diseñó la calculadora automatizada donde tú solo pones los datos básicos y el
+                            sistema hace toda la magia por ti.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ¿Qué incluye la Guía de Costos? -->
+        <section class="py-16 md:py-24 px-6 bg-surface-container-low/50 border-y border-outline-variant/20" id="guia">
+            <div class="max-w-container-max mx-auto flex flex-col gap-12">
+                <div class="text-center max-w-2xl mx-auto">
+                    <span
+                        class="text-primary font-bold text-sm tracking-wider uppercase block mb-2 font-headline">Características
+                        del Sistema</span>
+                    <h2 class="font-headline text-3xl font-extrabold text-on-surface">¿Qué incluye la Guía de Costos J&O
+                        Cupcake?</h2>
+                    <p class="text-on-surface-variant text-base mt-3">Diseñado con precisión milimétrica en Google
+                        Sheets para ser visualmente intuitivo y sumamente poderoso.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-white rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+                        <div
+                            class="w-12 h-12 shrink-0 rounded-xl bg-secondary-container flex items-center justify-center">
+                            <span
+                                class="material-symbols-outlined text-primary text-2.5xl font-semibold">account_balance_wallet</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Gastos Fijos y Sueldo</h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                Define cuánto quieres ganar al mes y calcula automáticamente tu costo por hora de
+                                trabajo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-white rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+                            <span
+                                class="material-symbols-outlined text-tertiary text-2.5xl font-semibold">precision_manufacturing</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Depreciación de Equipos</h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                El único sistema que calcula los centavos exactos que te cuesta usar tu batidora,
+                                nevera, cocina o microondas por postre.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-white rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-primary-fixed flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-2.5xl font-semibold">cookie</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Fórmula Maestra por Producto
+                            </h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                Desglosa ingrediente por ingrediente, rellenos, coberturas, toppings y hasta la caja, la
+                                vela o el sticker del empaque.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-white rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-secondary-fixed flex items-center justify-center">
+                            <span
+                                class="material-symbols-outlined text-on-secondary-fixed text-2.5xl font-semibold">schedule</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Control de Tiempo</h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                Suma de forma inteligente las horas que pasas diseñando, horneando, preparando y
+                                decorando para que tu mano de obra esté 100% cubierta.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-white rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-surface-variant flex items-center justify-center">
+                            <span
+                                class="material-symbols-outlined text-outline text-2.5xl font-semibold">cloud_sync</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Multiplataforma y en Tiempo
+                                Real</h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                Úsala en tu computadora o directo en tu celular desde Google Drive sin miedo a perder
+                                tus datos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 6 (Decorative / Future addition) -->
+                    <div
+                        class="flex items-start gap-4 p-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-dashed border-primary/20 shadow-sm">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-white flex items-center justify-center">
+                            <span
+                                class="material-symbols-outlined text-primary text-2.5xl">sentiment_very_satisfied</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <h3 class="font-headline text-base font-bold text-on-surface">Paz Mental Financiera</h3>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                Toma el control absoluto de tus finanzas. Sabe exactamente cuánto cobrar y cuánto estás
+                                ganando en todo momento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- El quiz estático se removió para dar paso al Filtro por Modal de Conversión -->
+
+        <!-- 4. El "Super Bonus" Incluido -->
+        <section class="py-16 md:py-24 px-6 bg-white" id="bonus">
+            <div class="max-w-4xl mx-auto">
+                <div
+                    class="relative p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-secondary-container/20 to-primary-container/10 border-4 border-white glow-effect text-center overflow-hidden">
+                    <!-- Absolute sprinkles decorative pattern overlay -->
+                    <div class="absolute inset-0 bg-sprinkles opacity-5 pointer-events-none"></div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-6">
+                        <div
+                            class="bg-primary text-on-primary px-5 py-2 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-sm">
+                            ¡SUPER BONUS INCLUIDO!
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-primary text-7xl font-bold animate-pulse">smart_display</span>
+                        <h2 class="font-headline text-2xl md:text-3xl font-extrabold text-on-surface">Video Tutorial
+                            Paso a Paso</h2>
+                        <p class="text-on-surface-variant text-base leading-relaxed max-w-2xl mx-auto">
+                            Recibe un video exclusivo donde te enseñamos en tiempo real cómo rellenar los campos y
+                            adaptar la guía a tu negocio. ¡No te quedarás sola frente a una hoja en blanco!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Objeciones y Garantía de Uso -->
+        <section class="py-16 md:py-24 px-6 bg-surface-container-low/50 border-t border-outline-variant/20" id="faq">
+            <div class="max-w-2xl mx-auto flex flex-col gap-8">
+                <div class="text-center">
+                    <h2 class="font-headline text-3xl font-extrabold text-on-surface mb-2">Preguntas Frecuentes</h2>
+                    <p class="text-on-surface-variant text-sm">Todo lo que necesitas saber para sentirte 100% segura.
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <!-- FAQ 1 -->
+                    <details
+                        class="group p-5 bg-white rounded-2xl border border-outline-variant/30 transition-all duration-300"
+                        open>
+                        <summary
+                            class="flex justify-between items-center cursor-pointer font-headline text-base font-bold text-on-surface list-none">
+                            <span>¿Le temes al Excel o a las fórmulas?</span>
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-primary font-bold">expand_more</span>
+                        </summary>
+                        <div
+                            class="mt-4 text-on-surface-variant text-sm leading-relaxed border-t border-outline-variant/10 pt-4">
+                            ¡Es completamente normal! Por eso, nuestra plantilla está diseñada para que solo tengas que
+                            "rellenar los campos en blanco". Todas las fórmulas complejas ya están bloqueadas y
+                            programadas para hacer el trabajo sucio. Si sabes rellenar un formulario básico, sabes usar
+                            esto.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 2 -->
+                    <details
+                        class="group p-5 bg-white rounded-2xl border border-outline-variant/30 transition-all duration-300">
+                        <summary
+                            class="flex justify-between items-center cursor-pointer font-headline text-base font-bold text-on-surface list-none">
+                            <span>¿Qué tipo de soporte técnico recibiré?</span>
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-primary font-bold">expand_more</span>
+                        </summary>
+                        <div
+                            class="mt-4 text-on-surface-variant text-sm leading-relaxed border-t border-outline-variant/10 pt-4">
+                            Si hay cualquier problema con los enlaces de descarga o tienes alguna duda con el llenado de
+                            la plantilla, dispones de un contacto directo de soporte técnico por WhatsApp. Te ayudaremos
+                            a resolverlo de inmediato para que sigas enfocada en cocinar.
+                        </div>
+                    </details>
+
+                    <!-- FAQ 3 -->
+                    <details
+                        class="group p-5 bg-white rounded-2xl border border-outline-variant/30 transition-all duration-300">
+                        <summary
+                            class="flex justify-between items-center cursor-pointer font-headline text-base font-bold text-on-surface list-none">
+                            <span>¿Necesito una cuenta paga de Google?</span>
+                            <span
+                                class="material-symbols-outlined group-open:rotate-180 transition-transform text-primary font-bold">expand_more</span>
+                        </summary>
+                        <div
+                            class="mt-4 text-on-surface-variant text-sm leading-relaxed border-t border-outline-variant/10 pt-4">
+                            No. Google Sheets es 100% gratuito. Solo necesitas una cuenta de Gmail estándar para abrir
+                            la guía, guardarla en tu Google Drive y empezar a utilizarla desde cualquier dispositivo.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Oferta Irresistible y Cierre en WhatsApp -->
+        <section class="py-20 md:py-28 px-6 bg-primary text-on-primary text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-sprinkles opacity-10 pointer-events-none"></div>
+
+            <div class="max-w-2xl mx-auto relative z-10 flex flex-col items-center gap-8">
+                <span
+                    class="font-headline font-bold text-sm tracking-widest uppercase bg-white/20 px-4 py-1.5 rounded-full">
+                    OFERTA DE LANZAMIENTO
+                </span>
+
+                <h2 class="font-headline text-3xl md:text-4xl font-extrabold leading-tight">
+                    Toma hoy el control de tu negocio repostero
+                </h2>
+
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-lg line-through opacity-70 font-semibold">Antes $25 USD</span>
+                    <span
+                        class="font-headline text-5xl md:text-7xl font-black tracking-tight text-white flex items-start gap-1">
+                        <span class="text-3xl md:text-4xl mt-1">$</span>5<span
+                            class="text-2xl md:text-3xl mt-6">USD</span>
+                    </span>
+                    <span class="text-xs bg-white text-primary font-bold px-3 py-1 rounded-full mt-2 tracking-wide">
+                        Pago único • Acceso de por vida
+                    </span>
+                </div>
+
+                <p class="text-base md:text-lg opacity-90 max-w-xl leading-relaxed">
+                    Haz clic abajo para chatear con nosotros por WhatsApp. Te enviaremos los detalles de pago de forma
+                    inmediata y recibirás el acceso a tu correo en minutos para empezar hoy mismo.
+                </p>
+
+                <!-- Giant CTA -->
+                <div class="w-full max-w-lg mt-2">
+                    <button
+                        class="w-full inline-flex items-center justify-center bg-whatsapp hover:bg-whatsapp-dark text-white font-headline text-lg md:text-xl font-bold px-8 py-5 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 gap-3 border-2 border-white glow-whatsapp cursor-pointer"
+                        onclick="openCheckoutModal('final_offer')" id="final-cta-whatsapp">
+                        <span>¡Sí, quiero automatizar mis costos y asegurar mis ganancias! ➔</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2 text-xs md:text-sm opacity-80 mt-2 font-medium">
+                    <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                    <span>Acceso inmediato • Soporte ilimitado por WhatsApp</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 bg-surface-container-low border-t border-outline-variant/20">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 px-6 max-w-container-max mx-auto">
+            <div class="flex items-center gap-2">
+                <img src="img/logo/logo.jpeg" alt="Logo J&O Cupcake"
+                    class="h-8 w-8 rounded-full object-cover border border-secondary/20" />
+                <span class="font-headline font-bold text-lg text-secondary">J&O Cupcake</span>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 text-sm text-on-surface-variant font-semibold">
+                <a class="hover:text-primary transition-colors" href="#inicio">Inicio</a>
+                <a class="hover:text-primary transition-colors" href="#dolor">Problemas</a>
+                <a class="hover:text-primary transition-colors" href="#guia">Funcionalidades</a>
+                <button class="hover:text-primary transition-colors focus:outline-none"
+                    onclick="openModal('privacy-modal')">Privacidad</button>
+                <button class="hover:text-primary transition-colors focus:outline-none"
+                    onclick="openModal('terms-modal')">Términos</button>
+            </div>
+
+            <div class="text-xs text-on-surface-variant text-center md:text-right font-medium max-w-md">
+                <p>© 2026 J&O Cupcake. Precisión Dulce para tu Negocio.</p>
+                <p class="mt-1 opacity-70">Hecho con ❤️ para reposteras emprendedoras.</p>
+                <p class="mt-4 text-[10px] opacity-40 leading-normal">
+                    Este sitio web no es parte del sitio web de Facebook o de Meta Platforms, Inc. Además, este sitio NO
+                    está respaldado por Meta de ninguna manera. FACEBOOK y META son marcas comerciales de META
+                    PLATFORMS, Inc.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic loaded via external js/script.js defer in head -->
+
+    <!-- Compliance Modals -->
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal"
+        class="fixed inset-0 z-[100] hidden bg-on-surface/50 backdrop-blur-sm flex items-center justify-center p-6">
+        <div
+            class="bg-white rounded-3xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 flex flex-col gap-4 shadow-2xl relative">
+            <button onclick="closeModal('privacy-modal')"
+                class="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-[28px]">close</span>
+            </button>
+            <h3 class="font-headline text-xl font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">security</span>
+                <span>Política de Privacidad</span>
+            </h3>
+            <div class="text-xs text-on-surface-variant leading-relaxed flex flex-col gap-3 font-medium font-body">
+                <p>En J&O Cupcake, valoramos tu privacidad. Esta política detalla cómo recopilamos y tratamos tu
+                    información al utilizar nuestro sitio web.</p>
+                <p class="font-bold text-on-surface">1. Recopilación de Información</p>
+                <p>No recopilamos información personal identificable a menos que decidas ponerte en contacto de forma
+                    activa con nosotros a través de los enlaces de WhatsApp, en cuyo caso solo utilizaremos tus datos de
+                    contacto para atender tu consulta comercial.</p>
+                <p class="font-bold text-on-surface">2. Uso de Cookies y Pixel</p>
+                <p>Utilizamos cookies y tecnologías similares como el Píxel de Meta para analizar el tráfico del sitio,
+                    personalizar la experiencia del usuario y optimizar nuestras campañas publicitarias en Facebook e
+                    Instagram.</p>
+                <p class="font-bold text-on-surface">3. Seguridad</p>
+                <p>Implementamos medidas técnicas razonables para proteger tus datos de cualquier acceso no autorizado o
+                    pérdida.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="terms-modal"
+        class="fixed inset-0 z-[100] hidden bg-on-surface/50 backdrop-blur-sm flex items-center justify-center p-6">
+        <div
+            class="bg-white rounded-3xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 flex flex-col gap-4 shadow-2xl relative">
+            <button onclick="closeModal('terms-modal')"
+                class="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-[28px]">close</span>
+            </button>
+            <h3 class="font-headline text-xl font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">gavel</span>
+                <span>Términos de Servicio</span>
+            </h3>
+            <div class="text-xs text-on-surface-variant leading-relaxed flex flex-col gap-3 font-medium font-body">
+                <p>Al acceder y utilizar este sitio web, aceptas cumplir con los siguientes términos y condiciones de
+                    uso.</p>
+                <p class="font-bold text-on-surface">1. Propiedad Intelectual</p>
+                <p>Todo el contenido del sitio, incluyendo logotipos, textos, diseños y estructuras, pertenece a J&O
+                    Cupcake y está protegido por derechos de propiedad intelectual.</p>
+                <p class="font-bold text-on-surface">2. Licencia de Uso de la Plantilla</p>
+                <p>La "Guía de Costos J&O Cupcake" es para uso individual y comercial exclusivo de tu propio negocio de
+                    repostería. Queda estrictamente prohibida la distribución, reventa o alteración con fines de
+                    comercialización a terceros.</p>
+                <p class="font-bold text-on-surface">3. Descargos de Responsabilidad</p>
+                <p>La plantilla es una herramienta de asistencia financiera y matemática. Los resultados dependen del
+                    ingreso correcto de los datos por parte del usuario. J&O Cupcake no garantiza el éxito comercial ni
+                    se responsabiliza por errores de decisión comercial del usuario.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Gated Checkout Modal -->
+    <div id="checkout-modal"
+        class="fixed inset-0 z-[100] hidden bg-on-surface/60 backdrop-blur-md flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 flex flex-col gap-6 shadow-2xl relative border border-outline-variant/30 transition-all duration-300">
+            <!-- Close button -->
+            <button onclick="closeCheckoutModal()"
+                class="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-[28px]">close</span>
+            </button>
+
+            <!-- Mascot Welcome Header -->
+            <div
+                class="flex items-center gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/20">
+                <img src="img/mascota.PNG" alt="Mascota J&O" class="w-16 h-16 full object-cover shrink-0" />
+                <div class="flex flex-col">
+                    <span class="text-[11px] font-bold text-primary font-headline uppercase tracking-wide">¡Hola! Qué
+                        gusto saludarte</span>
+                    <span class="text-xs text-on-surface-variant font-medium leading-normal">Escribe tu nombre y elige
+                        tu método de pago para enviarte el acceso a tu correo de inmediato.</span>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <!-- Input: Name -->
+            <div class="flex flex-col gap-1.5">
+                <label for="checkout-name"
+                    class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Tu Nombre
+                    Completo</label>
+                <div class="relative flex items-center">
+                    <span class="material-symbols-outlined text-outline absolute left-4 text-[20px]">person</span>
+                    <input type="text" id="checkout-name" placeholder="Ej: María Pérez"
+                        class="w-full pl-11 pr-4 py-3 rounded-2xl border border-outline-variant/40 bg-surface text-sm font-semibold text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow"
+                        required />
+                </div>
+                <p id="checkout-name-error" class="hidden text-xs text-error font-medium mt-1">Por favor, escribe tu
+                    nombre completo.</p>
+            </div>
+
+            <!-- Selection: Payment Method -->
+            <div class="flex flex-col gap-2">
+                <label
+                    class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline block">Método
+                    de Pago Preferido</label>
+                <div class="grid grid-cols-3 gap-3 mt-1">
+                    <!-- Pago Móvil Option -->
+                    <button type="button" onclick="selectPaymentMethod('pagomovil')" id="pm-card-pagomovil"
+                        class="payment-card-transition p-3 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col items-center justify-center gap-2 hover:border-primary hover:bg-primary/5 text-center cursor-pointer">
+                        <span
+                            class="material-symbols-outlined text-primary text-3xl font-semibold">account_balance</span>
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-sm font-bold text-on-surface leading-tight">Pago Móvil</span>
+                            <span class="text-[10px] text-on-surface-variant font-medium">Bs. Venezuela</span>
+                        </div>
+                    </button>
+                    <!-- Binance Option -->
+                    <button type="button" onclick="selectPaymentMethod('binance')" id="pm-card-binance"
+                        class="payment-card-transition p-3 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col items-center justify-center gap-2 hover:border-[#F0B90B] hover:bg-[#F0B90B]/5 text-center cursor-pointer">
+                        <span
+                            class="material-symbols-outlined text-[#F0B90B] text-3xl font-semibold">currency_bitcoin</span>
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-sm font-bold text-on-surface leading-tight">Binance Pay</span>
+                            <span class="text-[10px] text-on-surface-variant font-medium">USDT Cripto</span>
+                        </div>
+                    </button>
+                    <!-- PayPal Option -->
+                    <button type="button" onclick="selectPaymentMethod('paypal')" id="pm-card-paypal"
+                        class="payment-card-transition p-3 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col items-center justify-center gap-2 hover:border-[#003087] hover:bg-[#003087]/5 text-center cursor-pointer">
+                        <span class="material-symbols-outlined text-[#003087] text-3xl font-semibold">payment</span>
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-sm font-bold text-on-surface leading-tight">PayPal</span>
+                        </div>
+                    </button>
+                </div>
+                <p id="checkout-payment-error" class="hidden text-xs text-error font-medium mt-1">Por favor, selecciona
+                    un método de pago.</p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="w-full mt-2">
+                <button onclick="submitCheckout()"
+                    class="w-full inline-flex items-center justify-center bg-whatsapp hover:bg-whatsapp-dark text-white font-headline text-base font-bold py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 gap-3 glow-whatsapp cursor-pointer">
+                    <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.53.909-3.321 1.389 5.148 1.39h.005c5.565 0 10.093-4.52 10.096-10.083.001-2.697-1.047-5.232-2.951-7.138-1.904-1.906-4.437-2.956-7.134-2.957-5.567 0-10.095 4.521-10.098 10.084-.001 1.898.513 3.754 1.487 5.385l-1.03 3.766 3.863-.997zm11.37-7.929c-.312-.156-1.845-.91-2.131-1.015-.286-.104-.494-.156-.702.156s-.806 1.015-.988 1.222c-.182.207-.364.233-.676.078-.312-.156-1.318-.486-2.51-1.549-.928-.827-1.554-1.849-1.737-2.16-.182-.312-.019-.481.137-.635.141-.138.312-.364.468-.546.156-.182.208-.312.312-.52s.052-.39-.026-.546c-.078-.156-.702-1.69-.962-2.314-.253-.607-.512-.525-.702-.535-.181-.01-.39-.01-.598-.01s-.546.078-.832.39c-.286.312-1.092 1.067-1.092 2.602s1.118 3.015 1.274 3.223c.156.208 2.197 3.354 5.32 4.704.743.321 1.323.513 1.774.657.746.237 1.425.203 1.961.123.598-.09 1.845-.754 2.105-1.482.26-.728.26-1.353.182-1.482-.078-.129-.286-.207-.598-.363z" />
+                    </svg>
+                    <span>Confirmar Pedido por WhatsApp</span>
+                </button>
+            </div>
+
+            <!-- Google Drive compatibility notice -->
+            <div
+                class="text-[10px] text-on-surface-variant/60 text-center font-medium border-t border-outline-variant/10 pt-3">
+                *Nota: La calculadora requiere una cuenta gratuita de Gmail o Google Drive.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

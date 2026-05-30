@@ -1,0 +1,86 @@
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Playful bakery sprinkles pattern background */
+.bg-sprinkles {
+    background-image:
+        radial-gradient(circle at 10% 15%, rgba(184, 0, 73, 0.15) 3px, transparent 3px),
+        radial-gradient(circle at 85% 10%, rgba(226, 22, 95, 0.15) 4px, transparent 4px),
+        radial-gradient(circle at 50% 80%, rgba(129, 81, 91, 0.1) 3px, transparent 3px),
+        radial-gradient(circle at 20% 75%, rgba(105, 87, 94, 0.15) 3.5px, transparent 3.5px),
+        radial-gradient(circle at 75% 65%, rgba(184, 0, 73, 0.12) 3px, transparent 3px),
+        radial-gradient(circle at 90% 85%, rgba(226, 22, 95, 0.15) 2px, transparent 2px),
+        radial-gradient(circle at 35% 30%, rgba(129, 81, 91, 0.1) 4px, transparent 4px);
+    background-size: 180px 180px;
+}
+
+.glow-effect {
+    box-shadow: 0 10px 30px -10px rgba(184, 0, 73, 0.25);
+}
+
+.glow-whatsapp {
+    box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.4);
+}
+
+/* Animations */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(-3deg);
+    }
+}
+
+@keyframes float-laptop {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-float-mobile {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-laptop {
+    animation: float-laptop 8s ease-in-out infinite;
+}
+
+/* Mascot speech bubble bounce/pulse animation */
+@keyframes speech-bubble {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-4px) scale(1.02);
+    }
+}
+
+.animate-speech-bubble {
+    animation: speech-bubble 4s ease-in-out infinite;
+}
+
+/* Custom checkout elements */
+.payment-card-transition {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-binance {
+    box-shadow: 0 8px 20px -4px rgba(240, 185, 11, 0.2);
+}
+
+.glow-paypal {
+    box-shadow: 0 8px 20px -4px rgba(0, 48, 135, 0.2);
+}
