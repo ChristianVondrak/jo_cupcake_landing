@@ -40,6 +40,15 @@ const WHATSAPP_PHONE = '584241903404';
 let checkoutSource = 'direct';
 let selectedPayment = null;
 
+// Capture traffic source (UTM parameter) from the URL
+let trafficSource = '';
+try {
+    const urlParams = new URLSearchParams(window.location.search);
+    trafficSource = urlParams.get('utm_source') || urlParams.get('source') || '';
+} catch (e) {
+    console.error('Error parsing UTM source:', e);
+}
+
 
 /* ------------------------------------------
    3. DOM Interactive Elements & Listeners
@@ -232,7 +241,7 @@ function submitCheckout() {
     // Compile WhatsApp Message
     const message = `Hola J&O Cupcake! Quiero adquirir la Guía de Costos por $5 USD.\n\n` +
                     `*Detalles del pedido*:\n` +
-                    `- Nombre: ${name}\n` +
+                    `- Nombre: ${name}${trafficSource ? ` (vengo de ${trafficSource})` : ''}\n` +
                     `- Método de pago: ${paymentName}\n\n` +
                     `¿Me envías la información de pago para comenzar?`;
     
