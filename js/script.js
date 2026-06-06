@@ -15,7 +15,7 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 
 // Define standard Pixel ID (can be customized by user)
-const META_PIXEL_ID = '995734988964832';
+const META_PIXEL_ID = '2154327588442156';
 
 if (META_PIXEL_ID && META_PIXEL_ID !== 'YOUR_PIXEL_ID') {
     fbq('init', META_PIXEL_ID);
